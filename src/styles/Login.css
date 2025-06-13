@@ -1,0 +1,122 @@
+.login-container {
+  background-color: rgb(239, 237, 234);
+  border : 1px solid rgb(165, 163, 163);
+  border-radius: 15px;
+  margin: auto;
+  margin-top: 40px; 
+  max-width: 460px;
+  padding: 40px 20px;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+P {
+  text-align: center;
+  color: #666;
+  margin-bottom: 30px;
+}
+.form-group {
+  margin-bottom: 20px;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  margin: 15px 0;
+  color: #666;
+}
+
+.remember-me label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.remember-me input {
+  width: auto;
+  margin-right: 10px;
+}
+
+.login-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #29b96e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.login-button:hover {
+  background-color: #29b96e;
+}
+
+.signup-text {
+  margin-top: 20px;
+  color: #666;
+}
+
+.signup-text a {
+  color: #29b96e;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.signup-text a:hover {
+  text-decoration: underline;
+}
+.logo-container {
+  margin-bottom: 1.5rem;
+  color: green;
+}
+
+.sheep-logo {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  filter: brightness(0.9) sepia(0.1) hue-rotate(10deg);
+ 
+}
+.input-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #555;
+  text-align: left;
+}
+/* Ajoutez ces styles à votre fichier Login.css */
+
+.forgot-password-container {
+  text-align: right;
+  margin-top: 8px;
+}
+
+.forgot-password {
+  color: red;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+/* Conservez tous vos autres styles existants */
