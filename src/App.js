@@ -1,116 +1,155 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"
 import { AuthProvider } from "./context/AuthContext"
+import { AppProvider } from "./context/AppContext"
 import ProtectedRoute from "./components/ProtectedRoute"
-import Login from "./views/Login"
-import Register from "./views/Register"
-import UserDashboard from "./views/forUser/Dashboard"
-import UserProfile from "./views/forUser/Profile"
-import UserSheeps from "./views/forUser/Sheeps"
-import UserAppointments from "./views/forUser/Appointments"
-import UserPayment from "./views/forUser/Payment"
-import AdminDashboard from "./views/forAdmin/Dashboard"
-import AdminUsers from "./views/forAdmin/Users"
-import AdminSheeps from "./views/forAdmin/Sheeps"
-import AdminAppointments from "./views/forAdmin/Appointments"
-import AdminPointsOfSale from "./views/forAdmin/PointsOfSale"
+import Layout from "./components/Layout"
+
+// Auth components
+import Login from "./views/forUser/Login"
+import Register from "./views/forUser/Register"
+
+// User components
+import Dashboard from "./views/forUser/Dashboard"
+import Sheeps from "./views/forUser/Sheeps"
+import PointOfSale from "./views/forUser/PointOfSale"
+import Appointments from "./views/forUser/Appointments"
+import Payment from "./views/forUser/Payment"
+import Profile from "./views/forUser/Profile"
+
+// Admin components
+import AdminDashboard from "./views/forAdmin/AdminDashboard"
+import Users from "./views/forAdmin/Users"
+// Import the new Notifications component
+import Notifications from "./views/forAdmin/Notifications"
+
 import "./App.css"
 
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <div className="App">
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/" element={<Navigate to="/login" replace />} />
+      <AppProvider>
+        <Router>
+          <div className="App">
+            <Routes>
+              {/* Public routes */}
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
 
-            {/* User Routes */}
-            <Route
-              path="/user/dashboard"
-              element={
-                <ProtectedRoute requiredRole="user">
-                  <UserDashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/user/profile"
-              element={
-                <ProtectedRoute requiredRole="user">
-                  <UserProfile />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/user/sheeps"
-              element={
-                <ProtectedRoute requiredRole="user">
-                  <UserSheeps />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/user/appointments"
-              element={
-                <ProtectedRoute requiredRole="user">
-                  <UserAppointments />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/user/payment"
-              element={
-                <ProtectedRoute requiredRole="user">
-                  <UserPayment />
-                </ProtectedRoute>
-              }
-            />
+              {/* Protected routes - Available to both users and admins */}
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <Dashboard />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
 
-            {/* Admin Routes */}
-            <Route
-              path="/admin/dashboard"
-              element={
-                <ProtectedRoute requiredRole="admin">
-                  <AdminDashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin/users"
-              element={
-                <ProtectedRoute requiredRole="admin">
-                  <AdminUsers />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin/sheeps"
-              element={
-                <ProtectedRoute requiredRole="admin">
-                  <AdminSheeps />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin/appointments"
-              element={
-                <ProtectedRoute requiredRole="admin">
-                  <AdminAppointments />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin/points-of-sale"
-              element={
-                <ProtectedRoute requiredRole="admin">
-                  <AdminPointsOfSale />
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
-        </div>
-      </Router>
+              <Route
+                path="/sheeps"
+                element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <Sheeps />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/point-of-sale"
+                element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <PointOfSale />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/appointments"
+                element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <Appointments />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/payment"
+                element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <Payment />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <Profile />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* Admin-only routes */}
+              <Route
+                path="/admin/dashboard"
+                element={
+                  <ProtectedRoute adminOnly={true}>
+                    <Layout>
+                      <AdminDashboard />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/users"
+                element={
+                  <ProtectedRoute adminOnly={true}>
+                    <Layout>
+                      <Users />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* Add the notifications route after the Users route */}
+              <Route
+                path="/notifications"
+                element={
+                  <ProtectedRoute adminOnly={true}>
+                    <Layout>
+                      <Notifications />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* Default redirect based on role */}
+              <Route
+                path="/"
+                element={
+                  <ProtectedRoute>
+                    <Navigate to="/dashboard" replace />
+                  </ProtectedRoute>
+                }
+              />
+            </Routes>
+          </div>
+        </Router>
+      </AppProvider>
     </AuthProvider>
   )
 }
