@@ -5,6 +5,32 @@ import ApiService from "../services/Api"
 
 const AuthContext = createContext()
 
+// Demo account data
+const DEMO_ACCOUNTS = {
+  user: {
+    id: "demo-user-001",
+    name: "John",
+    lastName: "Doe",
+    email: "demo.user@example.com",
+    cin: "12345678",
+    payslip: "https://example.com/demo-payslip.pdf",
+    address: "123 Demo Street, Demo City, DC 12345",
+    role: "user",
+    avatar: "/placeholder.svg?height=40&width=40"
+  },
+  admin: {
+    id: "demo-admin-001",
+    name: "Jane",
+    lastName: "Smith",
+    email: "demo.admin@example.com",
+    cin: "87654321",
+    payslip: "https://example.com/admin-payslip.pdf",
+    address: "456 Admin Avenue, Admin City, AC 54321",
+    role: "admin",
+    avatar: "/placeholder.svg?height=40&width=40"
+  }
+}
+
 export const useAuth = () => {
   const context = useContext(AuthContext)
   if (!context) {
@@ -49,6 +75,45 @@ export const AuthProvider = ({ children }) => {
       return response
     } catch (error) {
       console.error("Login error:", error)
+      throw error
+    }
+  }
+
+  const demoLogin = async (accountType) => {
+    try {
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      
+      const demoUser = DEMO_ACCOUNTS[accountType]
+      if (!demoUser) {
+        throw new Error("Invalid demo account type")
+      }
+
+      // Generate a demo token
+      const demoToken = `demo-token-${accountType}-${Date.now()}`
+      
+      // Set user state
+      setUser(demoUser)
+      setIsAuthenticated(true)
+
+      // Store in localStorage (simulating real auth flow)
+      localStorage.setItem("authToken", demoToken)
+      localStorage.setItem("user", JSON.stringify(demoUser))
+      localStorage.setItem("userRole", demoUser.role)
+
+      // Update API service token if it exists
+      if (ApiService.token !== undefined) {
+        ApiService.token = demoToken
+      }
+
+      return {
+        success: true,
+        user: demoUser,
+        token: demoToken,
+        message: `Logged in as demo ${accountType}`
+      }
+    } catch (error) {
+      console.error("Demo login error:", error)
       throw error
     }
   }
@@ -108,16 +173,24 @@ export const AuthProvider = ({ children }) => {
     return user?.role === role
   }
 
+  const isDemoAccount = () => {
+    const token = localStorage.getItem("authToken")
+    return token && token.startsWith("demo-token-")
+  }
+
   const value = {
     user,
     isAuthenticated,
     loading,
     login,
+    demoLogin,
     register,
     logout,
     updateUserProfile,
     isAdmin,
     hasRole,
+    isDemoAccount,
+    demoAccounts: DEMO_ACCOUNTS,
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

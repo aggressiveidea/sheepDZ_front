@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { useAuth } from "../../context/AuthContext"
 import { useNavigate, Link } from "react-router-dom"
-import { WheatIcon as Sheep, Eye, EyeOff } from "lucide-react"
+import { WheatIcon as Sheep, Eye, EyeOff, User, Shield, Play } from 'lucide-react'
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -12,10 +12,11 @@ const Login = () => {
   })
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [demoLoading, setDemoLoading] = useState(null)
   const [error, setError] = useState("")
   const [rememberMe, setRememberMe] = useState(false)
 
-  const { login } = useAuth()
+  const { login, demoLogin, demoAccounts } = useAuth()
   const navigate = useNavigate()
 
   const handleChange = (e) => {
@@ -47,6 +48,26 @@ const Login = () => {
     }
   }
 
+  const handleDemoLogin = async (accountType) => {
+    setDemoLoading(accountType)
+    setError("")
+
+    try {
+      const response = await demoLogin(accountType)
+      
+      // Navigate based on user role
+      if (response.user.role === "admin") {
+        navigate("/admin/dashboard")
+      } else {
+        navigate("/dashboard")
+      }
+    } catch (error) {
+      setError(`Demo login failed: ${error.message}`)
+    } finally {
+      setDemoLoading(null)
+    }
+  }
+
   return (
     <div className="auth-container">
       <div className="auth-card">
@@ -56,6 +77,47 @@ const Login = () => {
           </div>
           <h1 className="auth-title">WELCOME BACK</h1>
           <p className="auth-subtitle">Welcome back! Please enter your details.</p>
+        </div>
+
+        {/* Demo Login Section */}
+        <div className="demo-section">
+          <div className="demo-header">
+            <Play size={16} />
+            <span>Try Demo Accounts</span>
+          </div>
+          <div className="demo-buttons">
+            <button
+              type="button"
+              className="demo-button demo-user"
+              onClick={() => handleDemoLogin('user')}
+              disabled={demoLoading !== null || loading}
+            >
+              <User size={18} />
+              <div className="demo-info">
+                <span className="demo-title">Demo User</span>
+                <span className="demo-subtitle">{demoAccounts.user.name} {demoAccounts.user.lastName}</span>
+              </div>
+              {demoLoading === 'user' && <div className="demo-spinner" />}
+            </button>
+            
+            <button
+              type="button"
+              className="demo-button demo-admin"
+              onClick={() => handleDemoLogin('admin')}
+              disabled={demoLoading !== null || loading}
+            >
+              <Shield size={18} />
+              <div className="demo-info">
+                <span className="demo-title">Demo Admin</span>
+                <span className="demo-subtitle">{demoAccounts.admin.name} {demoAccounts.admin.lastName}</span>
+              </div>
+              {demoLoading === 'admin' && <div className="demo-spinner" />}
+            </button>
+          </div>
+        </div>
+
+        <div className="divider">
+          <span>or continue with email</span>
         </div>
 
         <form className="auth-form" onSubmit={handleSubmit}>
@@ -106,7 +168,7 @@ const Login = () => {
 
           {error && <div className="error-message">{error}</div>}
 
-          <button type="submit" className="auth-button" disabled={loading}>
+          <button type="submit" className="auth-button" disabled={loading || demoLoading !== null}>
             {loading ? "Signing in..." : "Sign in"}
           </button>
 
