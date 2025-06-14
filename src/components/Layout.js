@@ -1,4 +1,4 @@
-"use client"
+
 import { useAuth } from "../context/AuthContext"
 import { useNavigate, useLocation } from "react-router-dom"
 import {
@@ -25,7 +25,7 @@ const Layout = ({ children }) => {
     navigate("/login")
   }
 
-  // Base menu items that both users and admins can access
+  
   const baseMenuItems = [
     { icon: Home, label: "Dashboard", path: "/dashboard", adminOnly: false },
     { icon: Sheep, label: "Sheeps", path: "/sheeps", adminOnly: false },
@@ -34,7 +34,7 @@ const Layout = ({ children }) => {
     { icon: CreditCard, label: "Payment", path: "/payment", adminOnly: false },
   ]
 
-  // Admin-only menu items
+  
   const adminMenuItems = [
     { icon: BarChart3, label: "Admin statistics", path: "/admin/dashboard", adminOnly: true },
     { icon: Users, label: "Users Management", path: "/users", adminOnly: true },
@@ -42,7 +42,7 @@ const Layout = ({ children }) => {
   
   ]
 
-  // Combine menu items based on user role
+  
   const menuItems = user?.role === "admin" ? [...baseMenuItems, ...adminMenuItems] : baseMenuItems
 
   const getPageTitle = () => {
@@ -51,7 +51,7 @@ const Layout = ({ children }) => {
       return currentItem.label
     }
 
-    // Handle profile page
+    
     if (location.pathname === "/profile") {
       return "Profile"
     }

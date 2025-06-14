@@ -1,4 +1,4 @@
-"use client"
+
 
 import { createContext, useContext, useState, useEffect } from "react"
 import ApiService from "../services/Api"

@@ -1,4 +1,4 @@
-"use client"
+
 
 import { useState } from "react"
 import { useAuth } from "../../context/AuthContext"
@@ -65,7 +65,7 @@ const Profile = () => {
     setMessage("")
 
     try {
-      // API call to change password would go here
+      
       setMessage("Password changed successfully!")
       setPasswordData({
         oldPassword: "",

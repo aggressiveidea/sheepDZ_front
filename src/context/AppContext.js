@@ -1,4 +1,4 @@
-"use client"
+
 
 import { createContext, useContext, useState, useCallback } from "react"
 import ApiService from "../services/Api"
@@ -21,14 +21,14 @@ export const AppProvider = ({ children }) => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
 
-  // Add notification state
+  
   const [notifications, setNotifications] = useState([])
 
   const fetchUsers = useCallback(async () => {
     setLoading(true)
     try {
       const response = await ApiService.getUsers()
-      // Handle different response structures
+      
       const usersData = Array.isArray(response) ? response : response.data || []
       setUsers(usersData)
     } catch (error) {
@@ -59,7 +59,7 @@ export const AppProvider = ({ children }) => {
     async (centerData) => {
       try {
         await ApiService.createCenter(centerData)
-        fetchCenters() // Refresh centers list
+        fetchCenters() 
       } catch (error) {
         console.error("Error adding center:", error)
         throw error
@@ -87,7 +87,7 @@ export const AppProvider = ({ children }) => {
     async (appointmentData) => {
       try {
         await ApiService.createAppointment(appointmentData)
-        fetchAppointments() // Refresh appointments list
+        fetchAppointments() 
       } catch (error) {
         console.error("Error adding appointment:", error)
         throw error
@@ -100,7 +100,7 @@ export const AppProvider = ({ children }) => {
     async (id, appointmentData) => {
       try {
         await ApiService.updateAppointment(id, appointmentData)
-        fetchAppointments() // Refresh appointments list
+        fetchAppointments() 
       } catch (error) {
         console.error("Error updating appointment:", error)
         throw error
@@ -113,7 +113,7 @@ export const AppProvider = ({ children }) => {
     async (id) => {
       try {
         await ApiService.deleteAppointment(id)
-        fetchAppointments() // Refresh appointments list
+        fetchAppointments() 
       } catch (error) {
         console.error("Error deleting appointment:", error)
         throw error
@@ -141,7 +141,7 @@ export const AppProvider = ({ children }) => {
     async (sheepData) => {
       try {
         await ApiService.createSheep(sheepData)
-        fetchSheep() // Refresh sheep list
+        fetchSheep() 
       } catch (error) {
         console.error("Error adding sheep:", error)
         throw error
@@ -154,7 +154,7 @@ export const AppProvider = ({ children }) => {
     async (id, sheepData) => {
       try {
         await ApiService.updateSheep(id, sheepData)
-        fetchSheep() // Refresh sheep list
+        fetchSheep() 
       } catch (error) {
         console.error("Error updating sheep:", error)
         throw error
@@ -167,7 +167,7 @@ export const AppProvider = ({ children }) => {
     async (id) => {
       try {
         await ApiService.deleteSheep(id)
-        fetchSheep() // Refresh sheep list
+        fetchSheep() 
       } catch (error) {
         console.error("Error deleting sheep:", error)
         throw error
@@ -176,7 +176,7 @@ export const AppProvider = ({ children }) => {
     [fetchSheep],
   )
 
-  // Helper methods for getting dropdown data
+  
   const getUserById = useCallback(async (id) => {
     try {
       return await ApiService.getUserById(id)
@@ -195,7 +195,7 @@ export const AppProvider = ({ children }) => {
     }
   }, [])
 
-  // Add notification functions after the existing functions
+  
   const getNotifications = useCallback(() => {
     try {
       return ApiService.getNotifications()

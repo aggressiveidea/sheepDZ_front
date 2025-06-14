@@ -1,4 +1,4 @@
-"use client"
+
 
 import { useEffect, useState } from "react"
 import { useAuth } from "../../context/AuthContext"
@@ -19,10 +19,10 @@ const PointOfSale = () => {
     location: "",
   })
 
-  // Check if user is admin
+  
   const isAdmin = user?.role === "admin"
 
-  // Real farm and agricultural images from Unsplash
+  
   const farmImages = [
     "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=400&h=250&fit=crop&crop=center",
     "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=400&h=250&fit=crop&crop=center",
@@ -36,7 +36,7 @@ const PointOfSale = () => {
     "https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=400&h=250&fit=crop&crop=center",
   ]
 
-  // Function to get a consistent image for each center
+  
   const getCenterImage = (centerId, centerName) => {
     const index = centerId ? centerId.length % farmImages.length : centerName.length % farmImages.length
     return farmImages[index]
@@ -60,7 +60,7 @@ const PointOfSale = () => {
   const handleEditSubmit = async (e) => {
     e.preventDefault()
     try {
-      // Add your update center logic here
+      
       console.log("Updating center:", selectedCenter.id, formData)
       setShowEditModal(false)
       setSelectedCenter(null)
@@ -90,7 +90,7 @@ const PointOfSale = () => {
 
   const handleDelete = (center) => {
     if (window.confirm(`Are you sure you want to delete ${center.name}?`)) {
-      // Add your delete center logic here
+      
       console.log("Deleting center:", center.id)
     }
     setActiveDropdown(null)
@@ -100,7 +100,7 @@ const PointOfSale = () => {
     setActiveDropdown(activeDropdown === centerId ? null : centerId)
   }
 
-  // Close dropdown when clicking outside
+  
   useEffect(() => {
     const handleClickOutside = () => {
       setActiveDropdown(null)
@@ -134,7 +134,7 @@ const PointOfSale = () => {
                 src={getCenterImage(center.id || center._id, center.name)}
                 alt={`${center.name} - Agricultural Center`}
                 onError={(e) => {
-                  // Fallback to a different farm image if one fails to load
+                  
                   e.target.src =
                     "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=400&h=250&fit=crop&crop=center"
                 }}

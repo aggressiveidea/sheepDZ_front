@@ -1,8 +1,8 @@
-"use client"
+
 import { Edit, Trash2, Eye, ShoppingCart } from "lucide-react"
 
 const SheepCard = ({ sheep, onEdit, onDelete, onView, onBuy, showActions = true, isAdmin = false }) => {
-  // Get the image URL with fallbacks
+  
   const getImageUrl = (sheep) => {
     return sheep.image || sheep.imageUrl || "/images/sheep-placeholder.png"
   }

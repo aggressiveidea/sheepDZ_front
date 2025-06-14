@@ -1,11 +1,11 @@
-// API service for handling all backend communications
+
 class ApiService {
   constructor() {
     this.baseURL = "http://localhost:5555/api"
     this.token = localStorage.getItem("authToken")
   }
 
-  // Set authorization header
+  
   getHeaders() {
     return {
       "Content-Type": "application/json",
@@ -13,15 +13,15 @@ class ApiService {
     }
   }
 
-  // Update token when it changes
+  
   updateToken() {
     this.token = localStorage.getItem("authToken")
   }
 
-  // Generic request method
+  
   async request(endpoint, options = {}) {
     try {
-      // Always get fresh token
+      
       this.updateToken()
 
       const response = await fetch(`${this.baseURL}${endpoint}`, {
@@ -42,14 +42,14 @@ class ApiService {
     }
   }
 
-  // Authentication methods
+  
   async login(credentials) {
     const response = await this.request("/auth/login", {
       method: "POST",
       body: JSON.stringify(credentials),
     })
 
-    // Handle the response structure from your backend
+    
     const authData = response.data || response
 
     if (authData.token && authData.user) {
@@ -63,7 +63,7 @@ class ApiService {
   }
 
   async register(userData) {
-    // Validate required fields
+    
     if (!userData.cin || isNaN(Number(userData.cin))) {
       throw new Error("CIN must be a valid number")
     }
@@ -76,7 +76,7 @@ class ApiService {
       throw new Error("Address is required")
     }
 
-    // Transform frontend data to match backend schema
+    
     const backendData = {
       email: userData.email?.trim(),
       password: userData.password,
@@ -103,23 +103,23 @@ class ApiService {
     localStorage.removeItem("userRole")
   }
 
-  // Get current user info
+  
   getCurrentUser() {
     const userStr = localStorage.getItem("user")
     return userStr ? JSON.parse(userStr) : null
   }
 
-  // Get current user role
+  
   getCurrentUserRole() {
     return localStorage.getItem("userRole") || "user"
   }
 
-  // Check if user is admin
+  
   isAdmin() {
     return this.getCurrentUserRole() === "admin"
   }
 
-  // User methods - Fixed to match your backend routes (/api/user)
+  
   async getUsers() {
     return await this.request("/user/all")
   }
@@ -141,7 +141,7 @@ class ApiService {
     })
   }
 
-  // Distribution Centers methods
+  
   async getCenters() {
     return await this.request("/center/all")
   }
@@ -182,16 +182,16 @@ class ApiService {
     })
   }
 
-  // Sheep methods
+  
   async getSheep() {
     try {
       const response = await this.request("/sheep/all")
-      // Transform backend data to match frontend expectations
+      
       const sheepData = Array.isArray(response) ? response : response.data || []
       return sheepData.map((sheep) => ({
         ...sheep,
         id: sheep._id || sheep.id,
-        image: sheep.imageUrl || sheep.image, // Map imageUrl to image
+        image: sheep.imageUrl || sheep.image, 
       }))
     } catch (error) {
       console.error("Error fetching sheep:", error)
@@ -205,7 +205,7 @@ class ApiService {
     return {
       ...sheep,
       id: sheep._id || sheep.id,
-      image: sheep.imageUrl || sheep.image, // Map imageUrl to image
+      image: sheep.imageUrl || sheep.image, 
     }
   }
 
@@ -225,7 +225,7 @@ class ApiService {
       body: JSON.stringify(backendData),
     })
 
-    // Transform response to match frontend expectations
+    
     const sheep = response.data || response
     return {
       ...sheep,
@@ -250,7 +250,7 @@ class ApiService {
       body: JSON.stringify(backendData),
     })
 
-    // Transform response to match frontend expectations
+    
     const sheep = response.data || response
     return {
       ...sheep,
@@ -265,7 +265,7 @@ class ApiService {
     })
   }
 
-  // Appointments (RDV) methods - Fixed to match backend model exactly
+  
   async getAppointments() {
     return await this.request("/rdv")
   }
@@ -275,15 +275,15 @@ class ApiService {
   }
 
   async createAppointment(appointmentData) {
-    // Create data that matches the ClientRDV model exactly
+    
     const backendData = {
-      userId: appointmentData.userId, // This matches the model field name
-      pointDeVenteId: appointmentData.pointDeVenteId, // This matches the model field name
-      date: appointmentData.date, // Should already be ISO string
+      userId: appointmentData.userId, 
+      pointDeVenteId: appointmentData.pointDeVenteId, 
+      date: appointmentData.date, 
       status: appointmentData.status || "pending",
     }
 
-    // Only include optional fields if they exist in your model
+    
     if (appointmentData.reason) {
       backendData.reason = appointmentData.reason
     }
@@ -291,7 +291,7 @@ class ApiService {
       backendData.notes = appointmentData.notes
     }
 
-    console.log("API sending appointment data:", backendData) // Debug log
+    console.log("API sending appointment data:", backendData) 
 
     return await this.request("/rdv", {
       method: "POST",
@@ -300,15 +300,15 @@ class ApiService {
   }
 
   async updateAppointment(id, appointmentData) {
-    // Create data that matches the ClientRDV model exactly
+    
     const backendData = {
-      userId: appointmentData.userId, // This matches the model field name
-      pointDeVenteId: appointmentData.pointDeVenteId, // This matches the model field name
-      date: appointmentData.date, // Should already be ISO string
+      userId: appointmentData.userId, 
+      pointDeVenteId: appointmentData.pointDeVenteId, 
+      date: appointmentData.date, 
       status: appointmentData.status || "pending",
     }
 
-    // Only include optional fields if they exist in your model
+    
     if (appointmentData.reason) {
       backendData.reason = appointmentData.reason
     }
@@ -328,7 +328,7 @@ class ApiService {
     })
   }
 
-  // Notification methods for buy requests
+  
   async createBuyRequest(buyRequestData) {
     const notification = {
       id: Date.now(),

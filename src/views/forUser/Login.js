@@ -1,4 +1,4 @@
-"use client"
+
 
 import { useState } from "react"
 import { useAuth } from "../../context/AuthContext"
@@ -35,7 +35,7 @@ const Login = () => {
     try {
       const response = await login(formData)
 
-      // Navigate based on user role
+      
       if (response.user.role === "admin") {
         navigate("/admin/dashboard")
       } else {
@@ -55,7 +55,7 @@ const Login = () => {
     try {
       const response = await demoLogin(accountType)
       
-      // Navigate based on user role
+      
       if (response.user.role === "admin") {
         navigate("/admin/dashboard")
       } else {

@@ -1,4 +1,4 @@
-"use client"
+
 
 import { useEffect, useState } from "react"
 import { useAuth } from "../../context/AuthContext"
@@ -25,7 +25,7 @@ const Sheeps = () => {
     image: "",
   })
 
-  // Check if user is admin
+  
   const isAdmin = user?.role === "admin"
 
   useEffect(() => {
@@ -114,7 +114,7 @@ const Sheeps = () => {
 
   const handleBuySheep = async (sheep) => {
     try {
-      // Create buy request notification for admin
+      
       const buyRequestData = {
         userId: user.id || user._id,
         userName: `${user.firstName || user.name} ${user.lastName || ""}`.trim(),

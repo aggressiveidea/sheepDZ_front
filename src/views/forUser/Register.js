@@ -1,4 +1,4 @@
-"use client"
+
 
 import { useState } from "react"
 import { useAuth } from "../../context/AuthContext"
@@ -58,7 +58,7 @@ const Register = () => {
       return false
     }
     if (!formData.payslip.startsWith("http")) {
-      setError("Payslip must be a valid URL starting with http:// or https://")
+      setError("Payslip must be a valid URL starting with http://or https:///")
       return false
     }
     if (!formData.address.trim()) {
@@ -90,18 +90,18 @@ const Register = () => {
       console.log("Form data being submitted:", formData)
       const response = await register(formData)
 
-      // Check if registration was successful and we have user data
+      
       if (response && response.user) {
         console.log("Registration successful, user role:", response.user.role)
 
-        // Navigate based on user role
+        
         if (response.user.role === "admin") {
           navigate("/admin/dashboard")
         } else {
           navigate("/dashboard")
         }
       } else {
-        // Fallback: redirect to login if no user data in response
+        
         navigate("/login", {
           state: { message: "Registration successful! Please log in." },
         })

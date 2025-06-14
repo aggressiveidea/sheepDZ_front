@@ -1,4 +1,4 @@
-"use client"
+
 
 import { useEffect, useState } from "react"
 import { useApp } from "../../context/AppContext"
@@ -73,7 +73,7 @@ const Users = () => {
       await ApiService.updateUser(selectedUser.id || selectedUser._id, editFormData)
       setSuccess("User updated successfully!")
       setShowEditModal(false)
-      fetchUsers() // Refresh the users list
+      fetchUsers() 
       setTimeout(() => setSuccess(""), 3000)
     } catch (error) {
       setError(error.message || "Failed to update user")
@@ -90,7 +90,7 @@ const Users = () => {
       await ApiService.deleteUser(selectedUser.id || selectedUser._id)
       setSuccess("User deleted successfully!")
       setShowDeleteModal(false)
-      fetchUsers() // Refresh the users list
+      fetchUsers() 
       setTimeout(() => setSuccess(""), 3000)
     } catch (error) {
       setError(error.message || "Failed to delete user")

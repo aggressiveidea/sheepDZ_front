@@ -1,4 +1,4 @@
-"use client"
+
 
 import { useEffect, useState } from "react"
 import { useApp } from "../../context/AppContext"
@@ -67,7 +67,7 @@ const Notifications = () => {
     setLoading(true)
     setError("")
     try {
-      // Create appointment
+      
       const appointmentPayload = {
         userId: selectedNotification.userId,
         pointDeVenteId: appointmentData.pointDeVenteId,
@@ -78,7 +78,7 @@ const Notifications = () => {
 
       await addAppointment(appointmentPayload)
 
-      // Update notification status
+      
       await updateNotificationStatus(
         selectedNotification.id,
         "approved",

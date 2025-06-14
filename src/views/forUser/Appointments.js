@@ -1,4 +1,4 @@
-"use client"
+
 
 import { useEffect, useState } from "react"
 import { useAuth } from "../../context/AuthContext"
@@ -17,7 +17,7 @@ const Appointments = () => {
   const [selectedAppointment, setSelectedAppointment] = useState(null)
   const [formData, setFormData] = useState({
     date: "",
-    userId: "", // Changed from clientId to userId to match backend
+    userId: "", 
     pointDeVenteId: "",
     status: "pending",
     reason: "",
@@ -28,14 +28,14 @@ const Appointments = () => {
   const [availableCenters, setAvailableCenters] = useState([])
   const [loadingData, setLoadingData] = useState(false)
 
-  // Check if user is admin
+  
   const isAdmin = user?.role === "admin"
 
   useEffect(() => {
     fetchAppointments()
   }, [])
 
-  // Fetch users and centers for dropdowns
+  
   useEffect(() => {
     const fetchDropdownData = async () => {
       if (isAdmin) {
@@ -59,11 +59,11 @@ const Appointments = () => {
     fetchDropdownData()
   }, [isAdmin])
 
-  // Helper function to safely extract display values
+  
   const getDisplayValue = (value) => {
     if (value === null || value === undefined) return "N/A"
     if (typeof value === "object") {
-      // Handle user object
+      
       if (value.firstName && value.lastName) {
         return `${value.firstName} ${value.lastName}`
       }
@@ -78,7 +78,7 @@ const Appointments = () => {
     return String(value)
   }
 
-  // Helper function to get user display
+  
   const getUserDisplay = (userObj) => {
     if (!userObj) return "N/A"
     if (typeof userObj === "object") {
@@ -93,7 +93,7 @@ const Appointments = () => {
     return String(userObj)
   }
 
-  // Helper function to get point of sale display
+  
   const getPointOfSaleDisplay = (pos) => {
     if (!pos) return "N/A"
     if (typeof pos === "object") {
@@ -102,7 +102,7 @@ const Appointments = () => {
     return String(pos)
   }
 
-  // Helper function to format date
+  
   const formatDate = (dateValue) => {
     if (!dateValue) return "N/A"
     try {
@@ -113,7 +113,7 @@ const Appointments = () => {
     }
   }
 
-  // Helper function to format datetime-local input
+  
   const formatDateTimeLocal = (dateValue) => {
     if (!dateValue) return ""
     try {
@@ -135,7 +135,7 @@ const Appointments = () => {
   const handleAddAppointment = () => {
     setFormData({
       date: "",
-      userId: "", // Changed from clientId to userId
+      userId: "", 
       pointDeVenteId: "",
       status: "pending",
       reason: "",
@@ -147,14 +147,14 @@ const Appointments = () => {
   const handleEditAppointment = (appointment) => {
     setSelectedAppointment(appointment)
 
-    // Extract IDs from objects if needed
+    
     const userId = appointment.user?._id || appointment.user?.id || appointment.userId || appointment.clientId || ""
     const pointDeVenteId =
       appointment.pointOfSale?._id || appointment.pointOfSale?.id || appointment.pointDeVenteId || ""
 
     setFormData({
       date: formatDateTimeLocal(appointment.date),
-      userId: String(userId), // Changed from clientId to userId
+      userId: String(userId), 
       pointDeVenteId: String(pointDeVenteId),
       status: appointment.status || "pending",
       reason: appointment.reason || "",
@@ -166,21 +166,21 @@ const Appointments = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      // Validate required fields
+      
       if (!formData.date || !formData.userId || !formData.pointDeVenteId) {
         alert("Please fill in all required fields")
         return
       }
 
-      // Create appointment data that matches backend model exactly
+      
       const appointmentData = {
-        userId: formData.userId, // This matches the backend model
-        pointDeVenteId: formData.pointDeVenteId, // This matches the backend model
-        date: new Date(formData.date).toISOString(), // Ensure proper date format
+        userId: formData.userId, 
+        pointDeVenteId: formData.pointDeVenteId, 
+        date: new Date(formData.date).toISOString(), 
         status: formData.status,
       }
 
-      // Only include optional fields if they have values
+      
       if (formData.reason && formData.reason.trim()) {
         appointmentData.reason = formData.reason.trim()
       }
@@ -188,7 +188,7 @@ const Appointments = () => {
         appointmentData.notes = formData.notes.trim()
       }
 
-      console.log("Sending appointment data:", appointmentData) // Debug log
+      console.log("Sending appointment data:", appointmentData) 
 
       if (selectedAppointment) {
         await updateAppointment(selectedAppointment.id || selectedAppointment._id, appointmentData)
@@ -326,7 +326,7 @@ const Appointments = () => {
             <div className="form-group">
               <label className="form-label">Client *</label>
               <select
-                name="userId" // Changed from clientId to userId
+                name="userId" 
                 className="form-input"
                 value={formData.userId}
                 onChange={handleChange}
@@ -425,7 +425,7 @@ const Appointments = () => {
             <div className="form-group">
               <label className="form-label">Client *</label>
               <select
-                name="userId" // Changed from clientId to userId
+                name="userId" 
                 className="form-input"
                 value={formData.userId}
                 onChange={handleChange}

@@ -1,4 +1,4 @@
-"use client"
+
 
 import { useEffect, useState } from "react"
 import { useAuth } from "../../context/AuthContext"
@@ -8,7 +8,7 @@ const Payment = () => {
   const [paymentHistory, setPaymentHistory] = useState([])
 
   useEffect(() => {
-    // Mock payment history data
+    
     setPaymentHistory([
       {
         id: 1,

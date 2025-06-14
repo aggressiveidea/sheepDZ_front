@@ -1,4 +1,4 @@
-"use client"
+
 
 import { useEffect, useState } from "react"
 import { useAuth } from "../../context/AuthContext"
@@ -11,7 +11,7 @@ const Dashboard = () => {
   const { sheep, fetchSheep } = useApp()
   const [recommendedSheep, setRecommendedSheep] = useState([])
 
-  // Check if user is admin
+  
   const isAdmin = user?.role === "admin"
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const Dashboard = () => {
   }, [])
 
   useEffect(() => {
-    // Get recommended sheep (first 3 for demo)
+    
     setRecommendedSheep(sheep.slice(0, 3))
   }, [sheep])
 
